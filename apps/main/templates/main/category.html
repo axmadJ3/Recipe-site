@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Категории {% endblock %}
+
+{% block category_active %} active {% endblock %}
+
+{% block content %}
+ <!-- ##### Breadcumb Area Start ##### -->
+ <div class="breadcumb-area bg-img bg-overlay" style="background-image: url('{% static "img/bg-img/breadcumb2.jpg" %}');">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcumb-text text-center">
+                    <h2> Категории </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+<!-- ##### Best Receipe Area Start ##### -->
+<section class="best-receipe-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading">
+                    <h3> </h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Single Best Receipe Area -->
+            {% for category in categories %}
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="single-best-receipe-area mb-30">
+                    <div class="recipe-photo-container">
+                        {% if category.photo %}
+                            <img src="{{ category.photo.url }}" alt="{{ category.title }}" class="recipe-photo">
+                        {% else %}
+                            <img src="{% static 'img/core-img/no-photo.png' %}" alt="No Photo Available" class="recipe-photo">
+                        {% endif %}
+                    </div>
+                    <div class="receipe-content">
+                        <a href="{% url 'category_detail' category.slug %}">
+                            <h5>{{ category.name }}</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>                                
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url('{% static "img/bg-img/breadcumb2.jpg" %}');">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcumb-text text-center">
+                    <h2> Кухни </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="best-receipe-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading">
+                    <h3> </h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Single Best Receipe Area -->
+            {% for kitchen in kitchens %}
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="single-best-receipe-area mb-30">
+                    <div class="recipe-photo-container">
+                        {% if kitchen.photo %}
+                            <img src="{{ kitchen.photo.url }}" alt="{{ kitchen.title }}" class="recipe-photo">
+                        {% else %}
+                            <img src="{% static 'img/core-img/no-photo.png' %}" alt="No Photo Available" class="recipe-photo">
+                        {% endif %}
+                    </div>
+                    <div class="receipe-content">
+                        <a href="{% url 'kitchen_detail' kitchen.slug %}">
+                            <h5>{{ kitchen.name }}</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>                                
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

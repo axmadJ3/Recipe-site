@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+ <!-- ##### Breadcumb Area Start ##### -->
+ <div class="breadcumb-area bg-img bg-overlay" style="background-image: url('{% static "img/bg-img/breadcumb2.jpg" %}');">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="breadcumb-text text-center">
+                    <div class="categories-nav">
+                        <a href="{% url 'category_detail' category.slug %}">{{ category.name }}</a>
+                        <span>|</span>
+                        <a href="{% url 'kitchen_detail' kitchen.slug %}">{{ kitchen.name }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+<!-- ##### Breadcumb Area End ##### -->
+
+<div class="receipe-post-area section-padding-80">
+    <!-- Receipe Slider -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="receipe-slider owl-carousel">
+                    <img src="{{ recipe.photo.url }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipe Content Area -->
+    <div class="receipe-content-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    
+                    <div class="receipe-headline my-5">
+                        <h2>{{ recipe.title }}</h2>
+                        <div class="receipe-duration">
+                            <h6>Время готовки: {{ recipe.cook_time }} минут</h6>
+                            <h6>Доходность: {{ recipe.yields }} порций</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-8">
+                    <!-- Single Preparation Step -->
+                    <div class="single-preparation-step">
+                        <h4>Описание</h4>
+                        <p>{{ recipe.description|striptags|safe  }}</p>
+                    </div>
+                    <div class="single-preparation-step">
+                        <h4>Инструкция</h4>
+                        <p>{{ recipe.instructions|striptags|safe  }}</p>
+                    </div>
+                </div>
+                
+
+                <!-- Ingredients -->
+                <div class="col-12 col-lg-4">
+                    <div class="ingredients">
+                        <h4>Ингредиенты</h4>
+                        {% for ingredient in recipe.ingredients.all %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck{{ forloop.counter }}" checked disabled>
+                            <label class="custom-control-label" for="customCheck{{ forloop.counter }}">{{ ingredient.name }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <h2>Отзывы</h2>
+            <div class="reviews-section">
+                {% for review in reviews %}
+                    <div class="review">
+                        <p><strong>{{ review.user.username }}</strong> <span class="review-date">({{ review.created|date:"d M Y H:i" }})</span></p>
+                        <p>{{ review.text }}</p>
+                    </div>
+                {% empty %}
+                    <p class="no-reviews">Еще нет отзывов.</p>
+                {% endfor %}
+            </div>
+
+
+            <hr>
+            {% if user.is_authenticated %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading text-left">
+                        <h3>Оставить отзыв</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="contact-form-area">
+                        <form action="{% url 'recipe_detail' recipe.slug %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <textarea name="text" class="form-control" id="text" cols="30" rows="10" placeholder="Отзыв"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn delicious-btn mt-30" type="submit">Опубликовать отзыв</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading text-left">
+                        <h3>Войдите чтоб оставить отзыв</h3>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

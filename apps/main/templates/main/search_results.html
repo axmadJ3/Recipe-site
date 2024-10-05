@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+
+<section class="best-receipe-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading">
+                    <h3>Результаты поиска по "{{ query }}" </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <!-- Single Best Receipe Area -->
+                {% for recipe in recipes %}
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-best-receipe-area mb-30">
+                        <div class="recipe-photo-container">
+                            {% if recipe.photo %}
+                                <img src="{{ recipe.photo.url }}" alt="{{ recipe.title }}" class="recipe-photo">
+                            {% else %}
+                                <img src="{% static 'img/core-img/no-photo.png' %}" alt="No Photo Available" class="recipe-photo">
+                            {% endif %}
+                        </div>
+                        <div class="receipe-content">
+                            <a href="{% url 'recipe_detail' recipe.slug %}">
+                                <h5>{{ recipe.title }}</h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>По запросу «{{ query }}» ничего не найдено</p>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}

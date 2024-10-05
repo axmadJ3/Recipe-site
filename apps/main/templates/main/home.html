@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Главное {% endblock %}
+
+{% block home_active %} active {% endblock %}
+{% block content %}
+    <!-- ##### Best Receipe Area Start ##### -->
+    <section class="best-receipe-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading">
+                        <h3> Последние добавленные блюда </h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Single Best Receipe Area -->
+                {% for dish in dishes %}
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-best-receipe-area mb-30">
+                        <div class="recipe-photo-container">
+                            {% if dish.photo %}
+                                <img src="{{ dish.photo.url }}" alt="{{ dish.title }}" class="recipe-photo">
+                            {% else %}
+                                <img src="{% static 'img/core-img/no-photo.png' %}" alt="No Photo Available" class="recipe-photo">
+                            {% endif %}
+                        </div>
+                        <div class="receipe-content">
+                            <a href="{% url 'recipe_detail' dish.slug %}">
+                                <h5>{{ dish.title }}</h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>                                
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- ##### Best Receipe Area End ##### -->
+
+    <!-- ##### CTA Area Start ##### -->
+    <section class="cta-area bg-img bg-overlay" style="background-image: url('{% static "img/bg-img/bg4.jpg" %}');">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <!-- Cta Content -->
+                    <div class="cta-content text-center">
+                        <h2> Рецепты </h2>
+                        <p>Ищите рецепты, выбирая категорию блюда, его подкатегорию, кухню или меню. А в дополнительных фильтрах можно искать по нужному (или ненужному) ингредиенту: просто начните писать его название и сайт подберет соответствующий.</p>
+                        <a href="{% url 'category' %}" class="btn delicious-btn">Посмотреть все категории</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### CTA Area End ##### -->
+{% endblock %}
